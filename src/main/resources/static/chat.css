@@ -24,7 +24,8 @@ body {
 	padding: 10px;
 	text-align: center;
 	font-weight: bold;
-	position: sticky; top: 0;
+	position: sticky;
+	top: 0;
 }
 
 .chat-messages {
@@ -43,7 +44,7 @@ body {
 	max-width: 80%;
 }
 
-.user {	
+.user {
 	color: #000;
 	align-self: flex-end;
 	background: #F5F5F5;
@@ -69,7 +70,7 @@ body {
 }
 
 .chat-input button {
-	padding: 10px 15px;
+	padding: 10px 10px;
 	background: #0078ff;
 	border: none;
 	color: white;
@@ -80,9 +81,74 @@ body {
 .chat-input button:hover {
 	background: #005fcc;
 }
+
 .chat-input .clear-btn {
-	background:crimson !important;
+	background: crimson !important;
 }
-@media (max-width:480px){
-  .chat-container{width:100%;height: 100%}
+
+#plusBtn {
+	width: 30px;
+	background: white;
+	color: black;
+	font-size: 30px;
+	text-align: center;
+	line-height: 35px;
+	cursor: pointer;
+	border: none;
+	outline: none;
+	padding: 0 !important;
+}
+
+#plusBtn:hover {
+	background-color: gray;
+}
+
+@media ( max-width :480px) {
+	.chat-container {
+		width: 100%;
+		height: 100%
+	}
+}
+
+#previewPopup {
+	display: none;
+	position: fixed;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	backdrop-filter: blur(3px);
+	background: rgba(0, 0, 0, 0.4);
+	z-index: 1000;
+	justify-content: center;
+	align-items: center;
+}
+
+#previewContent {
+    width: 90%;
+    height: 90%;
+    max-width: 90%;
+    max-height: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+#previewBox {
+    width: 100%;
+    height: 100%;
+}
+
+#closePreview {
+	position: absolute;
+	right: 10px;
+	top: 5px;
+	font-size: 25px;
+	border-radius: 20%;
+	cursor: pointer;
+	color: white;
+	background:red
+}
+
+@keyframes fadeIn {
+	from { transform:scale(0.9);opacity: 0;}
+    to { transform: scale(1);opacity: 1;}
 }
