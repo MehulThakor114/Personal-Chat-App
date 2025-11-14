@@ -31,8 +31,11 @@ async function sendMessage() {
 		fileUrl = await uploadFile(fileInput.files[0]);
 	}
 	
-	if (message === "" && !fileUrl) return;
-
+	if (message === "" && !fileUrl) {
+		sendBtn.disabled = false;
+        sendBtn.innerText = "Send";
+		return;
+	}
 	const messageDiv = document.createElement("div");
 	messageDiv.classList.add("message", "user");
 	messageDiv.textContent = message;
