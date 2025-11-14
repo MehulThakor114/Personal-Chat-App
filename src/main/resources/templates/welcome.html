@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="login.css">
+<title>Sign in</title>
+</head>
+<body>
+<main class="card" role="main" aria-labelledby="signin-title">
+  <header>
+    <div class="brand" aria-hidden="true">in</div>
+    <div>
+      <h1 id="signin-title">Sign in to your account</h1>
+    </div>
+  </header>
+
+  <form id="loginForm" autocomplete="on" novalidate>
+    <div class="field">
+      <label for="username">Username</label>
+      <div class="input">
+        <!-- simple username icon (inline SVG) -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 6.5v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-11" stroke="currentColor" stroke-opacity="0.8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M21 6.5l-9 6-9-6" stroke="currentColor" stroke-opacity="0.8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <input id="username" name="username" type="username" inputmode="username" placeholder="Username" required aria-required="true" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <div class="input" style="align-items:center;">
+        <!-- lock icon -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="11" width="18" height="10" rx="2" stroke="currentColor" stroke-opacity="0.8" stroke-width="1.2"/>
+          <path d="M7 11V8a5 5 0 0 1 10 0v3" stroke="currentColor" stroke-opacity="0.8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        <input id="password" name="password" type="password" placeholder="Password" minlength="8" required aria-required="true" />
+        <button type="button" class="pw-toggle" aria-controls="password" aria-pressed="false" title="Show password">
+          <!-- eye icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" stroke="currentColor" stroke-opacity="0.8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-opacity="0.8" stroke-width="1.2"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="strength" aria-hidden="true" title="Password strength">
+        <i id="strengthBar"></i>
+      </div>
+      <div id="passwordHelp" style="font-size:13px;color:var(--muted);margin-top:8px">Minimum 8 characters. Use letters, numbers & symbols for strength.</div>
+    </div>
+
+    <div role="status" aria-live="polite" id="status" class="error" style="display:none"></div>
+
+    <button type="submit" class="btn" id="submitBtn">Sign in</button>
+  </form>
+</main>
+
+<script src="login.js"></script>
+</body>
+</html>

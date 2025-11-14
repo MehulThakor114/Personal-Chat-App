@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="chat.css">
+    <title>Chat Application</title>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="chat-header">Chat Room</div>
+        <div id="chatBox" class="chat-messages"></div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+    const chatBox = document.getElementById("chatBox");
+    const input = document.getElementById("messageInput");
+    let ws = new WebSocket("ws://localhost:8080/connect");
+
+    input.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+          event.preventDefault(); // stop default form submission (if any)
+          sendMessage();
+        }
+      });
+
+    ws.onmessage = (event) => {
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("message", "other");
+        messageDiv.textContent = event.data;
+        chatBox.appendChild(messageDiv);
+    };
+
+    ws.onerror = (err) => console.error("WebSocket error:", err);
+    ws.onclose = () => console.warn("WebSocket connection closed");
+
+    function sendMessage() {
+        const message = input.value.trim();
+        if (message === "") return;
+
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("message", "user");
+        messageDiv.textContent = message;
+        chatBox.appendChild(messageDiv);
+
+        input.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        if (ws.readyState === WebSocket.OPEN) {
+            ws.send(message);
+        } else {
+            ws.addEventListener("open", () => ws.send(message), { once: true });
+        }
+    }
+</script>
+
+</body>
+</html>
