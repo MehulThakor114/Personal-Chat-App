@@ -4,6 +4,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	overflow-x: hidden;
 }
 
 .chat-container {
@@ -64,6 +65,7 @@ body {
 	padding: 10px;
 	border: none;
 	outline: none;
+	font-size: 16px;
 }
 
 .chat-input button {
@@ -72,6 +74,7 @@ body {
 	border: none;
 	color: white;
 	cursor: pointer;
+	 font-size: 16px;
 }
 
 .chat-input button:hover {
