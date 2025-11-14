@@ -1,12 +1,12 @@
 const chatBox = document.getElementById("chatBox");
 const input = document.getElementById("messageInput");
 const selectedFile = document.getElementById("selectedFile");
-let ws = new WebSocket("ws://localhost:8080/connect");
-/*let ws = new WebSocket("wss://personal-chatapp.azurewebsites.net/connect");*/
+/*let ws = new WebSocket("ws://localhost:8080/connect");*/
+let ws = new WebSocket("wss://personal-chatapp.azurewebsites.net/connect");
 
 input.addEventListener('keydown', function(event) {
 	if (event.key === 'Enter') {
-		event.preventDefault(); // stop default form submission (if any)
+		event.preventDefault();
 		sendMessage();
 	}
 });
