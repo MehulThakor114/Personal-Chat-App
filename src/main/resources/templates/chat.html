@@ -16,7 +16,7 @@
 			<input type="text" id="messageInput" placeholder="Type a message...">
 			<button id="plusBtn" onclick="openFilePicker()">+</button>
 			<input type="file" id="fileInput" style="display:none" onchange="showLocalPreview()">
-			<button onclick="sendMessage()">Send</button>
+			<button id="sendBtn" onclick="sendMessage()">Send</button>
 		</div>
 	</div>
 	<div id="previewPopup" onclick="closePopup(event)">

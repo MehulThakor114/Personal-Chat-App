@@ -1,6 +1,9 @@
 const chatBox = document.getElementById("chatBox");
 const input = document.getElementById("messageInput");
 const selectedFile = document.getElementById("selectedFile");
+let fileInput = document.getElementById("fileInput");
+let sendBtn = document.getElementById("sendBtn");
+
 /*let ws = new WebSocket("ws://localhost:8080/connect");*/
 let ws = new WebSocket("wss://personal-chatapp.azurewebsites.net/connect");
 
@@ -19,9 +22,9 @@ ws.onerror = (err) => console.error("WebSocket error:", err);
 ws.onclose = () => console.warn("WebSocket connection closed");
 
 async function sendMessage() {
-	const message = input.value.trim();
-	let fileInput = document.getElementById("fileInput");
-
+    sendBtn.disabled = true;
+    sendBtn.innerText = "Sending...";
+	const message = input.value.trim();	
 	let fileUrl = undefined;
 
 	if (fileInput.files.length > 0) {
@@ -43,6 +46,8 @@ async function sendMessage() {
 	}
 	input.value = "";
 	selectedFile.innerHTML = '';
+	fileInput.value = "";
+	
 	chatBox.scrollTop = chatBox.scrollHeight;
 	let payload = {
 		message: message,
@@ -53,6 +58,8 @@ async function sendMessage() {
 	} else {
 		ws.addEventListener("open", () => ws.send(message), { once: true });
 	}
+	sendBtn.disabled = false;
+    sendBtn.innerText = "Send";
 }
 async function uploadFile(file) {
 	let form = new FormData();
@@ -68,6 +75,7 @@ async function uploadFile(file) {
 function clearMessage() {
 	chatBox.innerHTML = '';
 	selectedFile.innerHTML = '';
+	fileInput.value = "";
 }
 
 function openFilePicker() {
