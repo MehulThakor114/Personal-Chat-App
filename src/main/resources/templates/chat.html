@@ -12,6 +12,7 @@
         <div class="chat-header">Chat Room</div>
         <div id="chatBox" class="chat-messages"></div>
         <div class="chat-input">
+            <button class="clear-btn" onclick="clearMessage()">Clear</button>
             <input type="text" id="messageInput" placeholder="Type a message...">
             <button onclick="sendMessage()">Send</button>
         </div>
@@ -57,6 +58,10 @@
         } else {
             ws.addEventListener("open", () => ws.send(message), { once: true });
         }
+    }
+    
+    function clearMessage() {
+        chatBox.innerHTML = '';
     }
 </script>
 
