@@ -4,8 +4,8 @@ const selectedFile = document.getElementById("selectedFile");
 let fileInput = document.getElementById("fileInput");
 let sendBtn = document.getElementById("sendBtn");
 
-/*let ws = new WebSocket("ws://localhost:8080/connect");*/
-let ws = new WebSocket("wss://personal-chatapp.azurewebsites.net/connect");
+let ws = new WebSocket("ws://localhost:8080/connect");
+/*let ws = new WebSocket("wss://personal-chatapp.azurewebsites.net/connect");*/
 
 input.addEventListener('keydown', function(event) {
 	if (event.key === 'Enter') {
@@ -22,25 +22,26 @@ ws.onerror = (err) => console.error("WebSocket error:", err);
 ws.onclose = () => console.warn("WebSocket connection closed");
 
 async function sendMessage() {
-    sendBtn.disabled = true;
-    sendBtn.innerText = "Sending...";
-	const message = input.value.trim();	
+	sendBtn.disabled = true;
+	sendBtn.innerText = "Sending...";
+	const message = input.value.trim();
 	let fileUrl = undefined;
 
 	if (fileInput.files.length > 0) {
 		fileUrl = await uploadFile(fileInput.files[0]);
 	}
-	
+
 	if (message === "" && !fileUrl) {
 		sendBtn.disabled = false;
-        sendBtn.innerText = "Send";
+		sendBtn.innerText = "Send";
 		return;
 	}
-	const messageDiv = document.createElement("div");
-	messageDiv.classList.add("message", "user");
-	messageDiv.textContent = message;
-	chatBox.appendChild(messageDiv);
-
+	if (message && message != "") {
+		const messageDiv = document.createElement("div");
+		messageDiv.classList.add("message", "user");
+		messageDiv.textContent = message;
+		chatBox.appendChild(messageDiv);
+	}
 	if (fileUrl) {
 		const fileUrlDiv = document.createElement("div");
 		fileUrlDiv.classList.add("message", "user");
@@ -50,7 +51,7 @@ async function sendMessage() {
 	input.value = "";
 	selectedFile.innerHTML = '';
 	fileInput.value = "";
-	
+
 	chatBox.scrollTop = chatBox.scrollHeight;
 	let payload = {
 		message: message,
@@ -62,7 +63,7 @@ async function sendMessage() {
 		ws.addEventListener("open", () => ws.send(message), { once: true });
 	}
 	sendBtn.disabled = false;
-    sendBtn.innerText = "Send";
+	sendBtn.innerText = "Send";
 }
 async function uploadFile(file) {
 	let form = new FormData();
@@ -79,6 +80,7 @@ function clearMessage() {
 	chatBox.innerHTML = '';
 	selectedFile.innerHTML = '';
 	fileInput.value = "";
+	fetch("/delete");
 }
 
 function openFilePicker() {
@@ -118,11 +120,17 @@ function showLocalPreview() {
 function showReceivedMessage(msg) {
 	let div = document.createElement("div");
 	let message = document.createElement("div");
-	div.classList.add("message", "other");
-	message.classList.add("message", "other");
-
-	if (msg.fileUrl) {
-		let ext = msg.fileUrl.split("_").pop().toLowerCase();
+	if (msg.class == "user") {
+		div.classList.add("message", "user");
+		message.classList.add("message", "user");
+	}
+	else {
+		div.classList.add("message", "other");
+		message.classList.add("message", "other");
+	}
+    let textMsg = JSON.parse(msg.text);
+	if (textMsg.fileUrl) {
+		let ext = textMsg.fileUrl.split("_").pop().toLowerCase();
 
 		/*if (["png", "jpg", "jpeg", "gif"].includes(ext)) {
 			div.innerHTML = `<br><img src="${msg.fileUrl}" width="150">`;
@@ -137,12 +145,12 @@ function showReceivedMessage(msg) {
 			div.innerHTML = `<br><embed src="${msg.fileUrl}" width="200" height="200"></embed>`;
 		}
 		else {*/
-			div.innerHTML = `<a href="${msg.fileUrl}" target="_blank">📄 ${ext}</a>`;
+		div.innerHTML = `<a href="${textMsg.fileUrl}" target="_blank">📄 ${ext}</a>`;
 		/*}*/
 		chatBox.appendChild(div);
 	}
-	if (msg.message) {
-		message.innerHTML = `${msg.message}`;
+	if (textMsg.message) {
+		message.innerHTML = `${textMsg.message}`;
 		chatBox.appendChild(message);
 	}
 
